@@ -1,0 +1,36 @@
+###kurulumdan sonra
+
+sudo apt-get update
+sudo apt-get upgrade
+
+sudo pip install PyYAML mavproxy
+sudo pip install dronekit
+
+pip install uvicorn
+pip install 'uvicorn[standard]'
+
+sudo usermod -a -G tty $USER
+sudo usermod -a -G dialout $USER
+
+systemctl stop nvgetty
+systemctl disable nvgetty
+udevadm trigger
+
+
+#sadece USB üzerinden bağlantı yapılacak
+#mavproxy.py çalıştırılacak.
+#link 1 down hatasından sonra terminal kapatılmadan usb çıkarılıp takılacak
+#bağlanınca guided moda alınıp en az 3 kere arm throttle verilecek
+#daha sonra ctrl-C yapılarak kapatılacak ve bufferio hatası alınana kadar bu işlem yapılacak.
+#bu hata alındıktan sonra kodumuzuzdaki connection uzantısı aşağıdaki gibi olmalı
+
+connect("/dev/serial/by-id/usb-Hex_ProfiCNC_CubeOrange_310024001551393334373535-if00")
+
+
+#çalıştırmak için
+uvicorn <uygulamanın adı>:app
+
+#example
+uvicorn test:app
+#daha sonra verileri görmek için aşağıdaki linke gidin
+http://127.0.0.1:8000
